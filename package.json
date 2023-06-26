@@ -13,6 +13,8 @@
     "browserify-fs": "^1.0.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "igdb-api-node": "^5.0.2",
+    "node-fetch": "^2.6.11"
   }
 }
