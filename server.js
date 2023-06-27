@@ -7,7 +7,6 @@ const gameAPI = require('./modules/gameAPI.js');
 const client_id = twitchCreds.client_id;
 const client_secret = twitchCreds.client_secret;
 
-
 app.use(express.static('public/'));
 app.set('view engine', 'ejs');
 app.listen(1186);
