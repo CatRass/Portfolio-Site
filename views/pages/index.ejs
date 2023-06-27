@@ -8,10 +8,13 @@
 
     <div id="gameReviews">
 
+        <%  for (var i=0; i<games.length; i++) { %>
+            <p class="name"><%= games[i].name %></p>
+            <img src=<%= "https://images.igdb.com/igdb/image/upload/t_720p/"+games[i].cover.image_id+".jpg" %> class='seamless'>
+        <% } %>
+
     </div>
 
-    <%  for (var i=0; i<games.length; i++){%>
-    <p class="name"><%= games[i].name %></p>
-    <% }    %>
+    
 
 </body>
