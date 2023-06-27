@@ -12,9 +12,16 @@ app.listen(1186);
 
 // *** GET Routes - display pages ***
 // Root Route
-app.get('/', function (req, res) {
-    res.render('pages/index');
+app.get('/', async function (req, res) {
+
+    var token = await getTwitchAccessToken(client_id, client_secret);
+    var games = await getGaming(token,client_id,"Tears of the Kingdom");
+
+    res.render('pages/index',
+    {games: games}
+    );
 });
+
 app.get('/subpage', function (req, res) {
     res.render('pages/subpage');
 });
@@ -36,9 +43,7 @@ async function getTwitchAccessToken(client_id, client_secret){
     
 }
 
-
-
-async function getGaming(twitchAuth, client_id){
+async function getGaming(twitchAuth, client_id, gameName){
 
     const response = await fetch('https://api.igdb.com/v4/games', {
         method: 'post',
@@ -47,11 +52,10 @@ async function getGaming(twitchAuth, client_id){
             'Client-ID': client_id,
             'Authorization': "Bearer " + await twitchAuth
         },
-        body: 'fields name, involved_companies; search "Tears of the kingdom";'
+        body: 'fields name, involved_companies, cover; search "'+gameName+'";'
     });
+
     const data = await response.json();
     console.log(data);
+    return data;
 }
-
-var token = getTwitchAccessToken(client_id, client_secret);
-var games = getGaming(token,client_id);
