@@ -15,9 +15,13 @@ exports.getTwitchAccessToken = async function (client_id, client_secret){
 
 exports.getGaming = async function (twitchAuth, client_id, gameName){
 
-    let filters = "category != 5 & category = 0 & version_parent = null & cover !=null";
-    // category = 5 when mod
+    let companyDetails = "involved_companies.company.name, involved_companies.developer, involved_companies.publisher";
+    let filters = "category != 5 & category !=4 & category !=2 & category !=1 & version_parent = null & cover !=null";
     // category = 0 when main game
+    // category = 1 when dlc_addon
+    // category = 2 when expansion
+    // category = 4 when standalone_expansion
+    // category = 5 when mod
 
     const response = await fetch('https://api.igdb.com/v4/games', {
         method: 'post',
@@ -26,7 +30,7 @@ exports.getGaming = async function (twitchAuth, client_id, gameName){
             'Client-ID': client_id,
             'Authorization': "Bearer " + await twitchAuth
         },
-        body: 'fields name, involved_companies, platforms.name, cover.image_id; search "'+gameName+'"; where '+filters+';' 
+        body: 'fields name, release_dates.human,'+companyDetails+' , platforms.name, cover.image_id; search "'+gameName+'"; where '+filters+';' 
         
         
     });
