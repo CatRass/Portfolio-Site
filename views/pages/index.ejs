@@ -6,15 +6,31 @@
     <div class="nameHeading">Darrel Malkin</div>
     <div class="usernameHeading">CatRass</div>
 
+    
+    <form method="POST" action="/">
+        <input type="text" name="gameToSearch"/>
+        <input type="submit"/>
+    </form>
+
     <div id="gameReviews">
 
         <%  for (var i=0; i<games.length; i++) { %>
-            <p class="name"><%= games[i].name %></p>
-            <img src=<%= "https://images.igdb.com/igdb/image/upload/t_720p/"+games[i].cover.image_id+".jpg" %> class='seamless'>
+
+            <div class="game">
+                <p class="name"><%= games[i].name %></p>
+                <p class="releaseDate"><%= games[i].release_dates[0].human %></p>
+
+                <div class = "platforms">
+                    <% for (var j=0; j<games[i].platforms.length; j++) {%>
+                        <p class = "platformName"><%= games[i].platforms[j].name %></p>
+                    <% } %>
+                </div>
+
+                <img src=<%= "https://images.igdb.com/igdb/image/upload/t_720p/"+games[i].cover.image_id+".jpg" %> class='seamless posterImage'>
+            </div>
+
         <% } %>
 
-    </div>
-
-    
+    </div>   
 
 </body>

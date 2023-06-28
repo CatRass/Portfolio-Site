@@ -11,17 +11,30 @@ const dbConnection = require('./modules/dbConnection.js');
 
 app.use(express.static('public/'));
 app.set('view engine', 'ejs');
-app.listen(1186);
+
+
+app.use(express.urlencoded({
+  extended: true
+}))
 
 // ======================================================================
 
 // *** GET Routes - display pages ***
 // Root Route
 
+var gameToSearch;
+
 app.get('/', async function (req, res) {
 
     var token = await gameAPI.getTwitchAccessToken(client_id, client_secret);
-    var games = await gameAPI.getGaming(token,client_id,"Tears of the kingdom");
+
+    if (gameToSearch != null){
+        var games = await gameAPI.getGaming(token,client_id,gameToSearch);
+    } else {
+        var games = await gameAPI.getGaming(token,client_id,"Tears of the kingdom");
+    }
+   
+
 
     res.render('pages/index',
     {games: games}
@@ -31,5 +44,13 @@ app.get('/', async function (req, res) {
 app.get('/subpage', function (req, res) {
     res.render('pages/subpage');
 });
+
+app.post('/', function (req, res){
+    gameToSearch = req.body.gameToSearch
+
+    res.redirect('/');
+});
+
+app.listen(1186);
 
 // ======================================================================

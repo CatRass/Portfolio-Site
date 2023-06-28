@@ -8,3 +8,15 @@
     -webkit-user-select: none;
     user-select: none;
 }
+
+.posterImage {
+    max-width: 10%;
+}
+
+.gameReviews {
+    display: grid;
+}
+
+.platforms {
+    display:flex
+}
