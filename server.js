@@ -22,28 +22,35 @@ app.use(express.urlencoded({
 // *** GET Routes - display pages ***
 // Root Route
 
-var gameToSearch;
+
 
 app.get('/', async function (req, res) {
 
     var token = await gameAPI.getTwitchAccessToken(client_id, client_secret);
+    let hasGame = false;
 
     if (gameToSearch != null){
         var games = await gameAPI.getGaming(token,client_id,gameToSearch);
+        hasGame = true;
+        res.render('pages/index',
+            {games: games, hasGame}
+        );
     } else {
-        var games = await gameAPI.getGaming(token,client_id,"Tears of the kingdom");
+        res.render('pages/index',
+            {hasGame}
+        );
     }
    
-
-
-    res.render('pages/index',
-    {games: games}
-    );
+    
 });
 
 app.get('/subpage', function (req, res) {
     res.render('pages/subpage');
 });
+
+// *** POST Requests - submitting forms ***
+
+var gameToSearch;
 
 app.post('/', function (req, res){
     gameToSearch = req.body.gameToSearch
