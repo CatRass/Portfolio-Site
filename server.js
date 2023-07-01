@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();  
+
 const ejs = require('ejs');
 
 const twitchCreds = require('./tokens/twitchCreds.json');
@@ -12,7 +13,6 @@ const dbConnection = require('./modules/dbConnection.js');
 app.use(express.static('public/'));
 app.set('view engine', 'ejs');
 
-
 app.use(express.urlencoded({
   extended: true
 }))
@@ -22,42 +22,23 @@ app.use(express.urlencoded({
 // *** GET Routes - display pages ***
 // Root Route
 
-
-
 app.get('/', async function (req, res) {
-
-    var token = await gameAPI.getTwitchAccessToken(client_id, client_secret);
-    let hasGame = false;
-
-    if (gameToSearch != null){
-        var games = await gameAPI.getGaming(token,client_id,gameToSearch);
-        hasGame = true;
-        res.render('pages/index',
-            {games: games, hasGame}
-        );
-    } else {
-        res.render('pages/index',
-            {hasGame}
-        );
-    }
-   
-    
+    res.render('pages/index');
 });
 
-app.get('/subpage', function (req, res) {
-    res.render('pages/subpage');
+// *** POST Request Routes - retrieve data ***
+
+app.post('/getGames', async function (req, res){
+    let token = await gameAPI.getTwitchAccessToken(client_id, client_secret);
+    let games = await gameAPI.getGaming(token,client_id,req.header('gameName'));
+    res.send(JSON.stringify(games));
 });
 
-// *** POST Requests - submitting forms ***
-
-var gameToSearch;
-
-app.post('/', function (req, res){
-    gameToSearch = req.body.gameToSearch
-
-    res.redirect('/');
+app.post('/addToDB', function (req, res){
+    console.log("Adding to DB")
+    res.send('{"Test": "Yes", "Test2":"Succ cess"}');
 });
-
-app.listen(1186);
 
 // ======================================================================
+
+app.listen(1186);

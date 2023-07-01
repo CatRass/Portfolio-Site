@@ -1,39 +1,21 @@
 <%- include('../partials/header') %>
 
 <script src="./js/script.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 <body>
     <div class="nameHeading">Darrel Malkin</div>
     <div class="usernameHeading">CatRass</div>
 
-    
-    <form method="POST" action="/">
-        <input type="text" name="gameToSearch" placeholder="Search Game..."/>
+    <form onsubmit="gameSearch(); return false">
+        <input type="text" name="gameToSearch" id='gameToSearch' placeholder="Search Game..."/>
         <input type="submit"/>
     </form>
 
-    <div id="gameReviews">
+    <button onclick="addToDB()">Test</button>
 
-        <% if(hasGame){ %>
+    <div id="gameReviews"></div>   
 
-            <%  for (var i=0; i<games.length; i++) { %>
-
-                <div class="game">
-                    <p class="name"><%= games[i].name %></p>
-                    <p class="releaseDate"><%= games[i].release_dates[0].human %></p>
-
-                    <div class = "platforms">
-                        <% for (var j=0; j<games[i].platforms.length; j++) {%>
-                            <p class = "platformName"><%= games[i].platforms[j].name %></p>
-                        <% } %>
-                    </div>
-
-                    <img src=<%= "https://images.igdb.com/igdb/image/upload/t_720p/"+games[i].cover.image_id+".jpg" %> class='seamless posterImage'>
-                </div>
-
-            <% } %>
-
-        <% } %>
-
-    </div>   
+    
 
 </body>
