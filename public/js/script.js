@@ -20,6 +20,8 @@ function addToDB(){
 }
 
 function gameSearch(){
+
+    document.body.style.cursor='wait';
     const game = document.getElementById('gameToSearch').value;
 
     let reqHeader = new Headers();
@@ -54,7 +56,7 @@ function gameSearch(){
                             '</data>'+
                         '</p>'+
 
-                        '<div class = "platforms'+i+'"></div>'+
+                        '<div class = "platforms platform'+i+'"></div>'+
 
                         '<img src="https://images.igdb.com/igdb/image/upload/t_720p/'+games[i].cover.image_id+'.jpg" class="seamless posterImage">'+
 
@@ -63,13 +65,8 @@ function gameSearch(){
 
                 for (var j=0; j<games[i].platforms.length; j++) {
 
-                    $('.platforms'+i).append(
-                        
-                        '<p class = "platformName">'+
-                            '<data name="platform" value = "'+games[i].platforms[j].name+', '+'">'+
-                                games[i].platforms[j].name + " " +
-                            '</data>'+
-                        '</p>'
+                    $('.platform'+i).append(
+                            '<img data-plaformName= "'+games[i].platforms[j].name+'" src="https://images.igdb.com/igdb/image/upload/t_thumb/'+games[i].platforms[j].versions[0].platform_logo.image_id+'.jpg" class="platformIcon">'
                     )
                 };
 
@@ -81,5 +78,10 @@ function gameSearch(){
         })
         .catch(function (err) {
             console.log("Something went wrong!", err);
+        })
+        .then( function(){
+            document.body.style.cursor='auto';
         });
+
+        
 }
