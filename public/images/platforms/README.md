@@ -1,0 +1,1 @@
+All images obtained from [Wikimedia Commons](https://commons.wikimedia.org/)
