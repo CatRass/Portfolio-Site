@@ -9,7 +9,7 @@ function getLogo(platformList)
         
         case "iOS":
         case "Mac":
-            platformVar = "Mac";
+            platformVar = "Apple";
             break;
         case "Linux":
             platformVar = "Linux";
