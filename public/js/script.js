@@ -1,5 +1,4 @@
 // import {getLogo} from "./getPlatformLogo.js";
-
 console.log('Javascript is operational')
 
 function addToDB(){
@@ -58,6 +57,12 @@ function gameSearch(){
                             '</data>'+
                         '</p>'+
 
+                        '<form class="review" onsubmit="getReview('+i+'); return false">'+
+                            '<input id="reviewStars'+i+'" type=range min="1" max="5" step="1"/>'+
+                            '<textarea id="reviewText'+i+'" placeholder="Your Review..." required=true></textarea>'+
+                            '<input type="submit"/>'+
+                        '</form>'+
+
                         '<div class = "platforms platform'+i+'"></div>'+
 
                         '<img src="https://images.igdb.com/igdb/image/upload/t_720p/'+games[i].cover.image_id+'.jpg" class="seamless posterImage">'+
@@ -78,10 +83,6 @@ function gameSearch(){
                             '<img class="platformLogo" data-plaformName= "'+games[i].platforms[j].name+'" alt = "'+games[i].platforms[j].name+'"  src="./images/platforms/'+logo+'.svg" class="platformIcon">'
                         )
                     }
-                    
-
-                    
-                   
                 };
 
             }
@@ -97,7 +98,6 @@ function gameSearch(){
             document.body.style.cursor='auto';
         });
 
-        
 }
 
 function getLogo(platformList)
@@ -157,4 +157,10 @@ function getLogo(platformList)
     }
     return platformVar;
     
+}
+
+function getReview(gameID){
+    let stars = document.getElementById('reviewStars'+gameID).value;
+    let review = document.getElementById('reviewText'+gameID).value;
+    console.log("Review Submitted for "+gameID+" with "+stars+" stars\nReview: "+review)
 }
