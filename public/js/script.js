@@ -39,33 +39,31 @@ function gameSearch(){
         })
         .then(function (games) {
 
+            console.log(games);
+
             $('#gameReviews').html("");
 
             for (var i=0; i<games.length; i++){
                 $('#gameReviews').append(
-                    '<div class="game">'+
+                    '<div class="game" id="'+i+'"  data-name="'+games[i].name+'" data-releaseDate="'+games[i].release_dates[0].human+'" data-developer="'+getDeveloper(games[i].involved_companies)+'" data-publisher="'+getPublisher(games[i].involved_companies)+'">'+
 
-                        '<p class="name" name="name">'+
-                            '<data name="gameName" value= "'+games[i].name+'">'+
+                        '<p id="gameName">'+
                             games[i].name +
-                            '</data>'+
                         '</p>'+
 
                         '<p class="releaseDate">'+
-                            '<data name="releaseDate" value="'+games[i].release_dates[0].human+'">'+
                                 games[i].release_dates[0].human+
-                            '</data>'+
                         '</p>'+
 
                         '<form class="review" onsubmit="getReview('+i+'); return false">'+
-                            '<input id="reviewStars'+i+'" type=range min="1" max="5" step="1"/>'+
-                            '<textarea id="reviewText'+i+'" placeholder="Your Review..." required=true></textarea>'+
-                            '<input type="submit"/>'+
+                            '<input class="reviewStars" id="reviewStars'+i+'" type=range min="1" max="5" step="1"/>'+
+                            '<textarea class="reviewText" id="reviewText'+i+'" placeholder="Your Review..." required=true></textarea>'+
+                            '<input class="reviewSubmit" type="submit"/>'+
                         '</form>'+
 
                         '<div class = "platforms platform'+i+'"></div>'+
 
-                        '<img src="https://images.igdb.com/igdb/image/upload/t_720p/'+games[i].cover.image_id+'.jpg" class="seamless posterImage">'+
+                        '<img id="poster'+i+'" src="https://images.igdb.com/igdb/image/upload/t_720p/'+games[i].cover.image_id+'.jpg" class="seamless posterImage">'+
 
                     '</div>'
                 );
@@ -86,10 +84,7 @@ function gameSearch(){
                 };
 
             }
-            
-
-
-            console.log(games);
+        
         })
         .catch(function (err) {
             console.log("Something went wrong!", err);
@@ -159,8 +154,37 @@ function getLogo(platformList)
     
 }
 
+function getDeveloper(involvedCompanies){
+    let developer;
+    for(let i=0; i<involvedCompanies.length;i++){
+        if(involvedCompanies[i].developer){
+            developer = involvedCompanies[i].company.name;
+        }
+    }
+    return developer;
+}
+
+function getPublisher(involvedCompanies){
+    let publisher;
+    for(let i=0; i<involvedCompanies.length;i++){
+        if(involvedCompanies[i].publisher){
+            publisher = involvedCompanies[i].company.name;
+        }
+    }
+    return publisher;
+}
+
 function getReview(gameID){
+    let gameDetails = document.getElementById(gameID);
+    let game = gameDetails.getAttribute('data-name');
+    let developer = gameDetails.getAttribute('data-developer');
+    let publisher = gameDetails.getAttribute('data-publisher');
+    let releaseDate = gameDetails.getAttribute('data-releaseDate');
+
     let stars = document.getElementById('reviewStars'+gameID).value;
     let review = document.getElementById('reviewText'+gameID).value;
-    console.log("Review Submitted for "+gameID+" with "+stars+" stars\nReview: "+review)
+    let posterURL = document.getElementById('poster'+gameID).src;
+
+    console.log("Review Submitted:")
+    console.table({"Name":game,"Release Date":releaseDate,"Developer":developer,"Publisher":publisher,"Star Rating":stars,"Review":review,"Poster URL":posterURL})
 }
