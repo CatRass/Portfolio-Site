@@ -74,11 +74,11 @@ function gameSearch(){
 
                     if (logo == "404"){
                         $('.platform'+i).append(
-                            '<img class="platformLogo" data-plaformName= "'+games[i].platforms[j].name+'" alt = "'+games[i].platforms[j].name+'"  src="https://images.igdb.com/igdb/image/upload/t_micro/'+games[i].platforms[j].versions[0].platform_logo.image_id+'.png" class="platformIcon">'
+                            '<img class="platformLogo" alt = "'+games[i].platforms[j].name+'"  src="https://images.igdb.com/igdb/image/upload/t_micro/'+games[i].platforms[j].versions[0].platform_logo.image_id+'.png" class="platformIcon">'
                         )
                     } else {
                         $('.platform'+i).append(
-                            '<img class="platformLogo" data-plaformName= "'+games[i].platforms[j].name+'" alt = "'+games[i].platforms[j].name+'"  src="./images/platforms/'+logo+'.svg" class="platformIcon">'
+                            '<img class="platformLogo" alt = "'+games[i].platforms[j].name+'"  src="./images/platforms/'+logo+'.svg" class="platformIcon">'
                         )
                     }
                 };
