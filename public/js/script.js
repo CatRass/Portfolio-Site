@@ -45,7 +45,7 @@ function gameSearch(){
 
             for (var i=0; i<games.length; i++){
                 $('#gameReviews').append(
-                    '<div class="game" id="'+i+'"  data-name="'+games[i].name+'" data-releaseDate="'+games[i].release_dates[0].human+'" data-developer="'+getDeveloper(games[i].involved_companies)+'" data-publisher="'+getPublisher(games[i].involved_companies)+'">'+
+                    '<div class="game" id="'+i+'" data-name="'+games[i].name+'" data-platforms="'+getPlatforms(games[i].platforms)+'" data-releaseDate="'+games[i].release_dates[0].human+'" data-developer="'+getDeveloper(games[i].involved_companies)+'" data-publisher="'+getPublisher(games[i].involved_companies)+'">'+
 
                         '<p id="gameName">'+
                             games[i].name +
@@ -174,17 +174,33 @@ function getPublisher(involvedCompanies){
     return publisher;
 }
 
+function getPlatforms(platformsVar){
+    let platforms ="";
+    for(let i=0; i<platformsVar.length;i++){
+        if(i == (platformsVar.length-1)){
+            platforms += platformsVar[i].name
+        }else {
+            platforms += platformsVar[i].name + ","
+
+        }
+    }
+
+    return platforms;
+
+}
+
 function getReview(gameID){
     let gameDetails = document.getElementById(gameID);
     let game = gameDetails.getAttribute('data-name');
     let developer = gameDetails.getAttribute('data-developer');
     let publisher = gameDetails.getAttribute('data-publisher');
     let releaseDate = gameDetails.getAttribute('data-releaseDate');
+    let platforms = gameDetails.getAttribute('data-platforms')
 
     let stars = document.getElementById('reviewStars'+gameID).value;
     let review = document.getElementById('reviewText'+gameID).value;
     let posterURL = document.getElementById('poster'+gameID).src;
 
     console.log("Review Submitted:")
-    console.table({"Name":game,"Release Date":releaseDate,"Developer":developer,"Publisher":publisher,"Star Rating":stars,"Review":review,"Poster URL":posterURL})
+    console.table({"Name":game,"Release Date":releaseDate,"Platforms":platforms,"Developer":developer,"Publisher":publisher,"Star Rating":stars,"Review":review,"Poster URL":posterURL})
 }
