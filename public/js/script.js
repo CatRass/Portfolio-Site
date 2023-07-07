@@ -45,7 +45,7 @@ function gameSearch(){
 
             for (var i=0; i<games.length; i++){
                 $('#gameReviews').append(
-                    '<div class="game" id="'+i+'" data-name="'+games[i].name+'" data-platforms="'+getPlatforms(games[i].platforms)+'" data-releaseDate="'+games[i].release_dates[0].human+'" data-developer="'+getDeveloper(games[i].involved_companies)+'" data-publisher="'+getPublisher(games[i].involved_companies)+'">'+
+                    '<div class="game" id="'+i+'" data-name="'+games[i].name+'" data-platforms="'+getPlatforms(games[i].platforms)+'" data-releaseDate="'+games[i].release_dates[0].human+'" data-developer="'+getDeveloper(games[i].involved_companies)+'" data-publisher="'+getPublisher(games[i].involved_companies)+'" data-coverID="'+games[i].cover.image_id+'">'+
 
                         '<p id="gameName">'+
                             games[i].name +
@@ -195,12 +195,41 @@ function getReview(gameID){
     let developer = gameDetails.getAttribute('data-developer');
     let publisher = gameDetails.getAttribute('data-publisher');
     let releaseDate = gameDetails.getAttribute('data-releaseDate');
-    let platforms = gameDetails.getAttribute('data-platforms')
+    let platforms = gameDetails.getAttribute('data-platforms');
+    let posterID = gameDetails.getAttribute('data-coverID');
+    
 
     let stars = document.getElementById('reviewStars'+gameID).value;
     let review = document.getElementById('reviewText'+gameID).value;
     let posterURL = document.getElementById('poster'+gameID).src;
 
-    console.log("Review Submitted:")
-    console.table({"Name":game,"Release Date":releaseDate,"Platforms":platforms,"Developer":developer,"Publisher":publisher,"Star Rating":stars,"Review":review,"Poster URL":posterURL})
+    let reqHeader = new Headers();
+    reqHeader.append('Content-Type', 'text/json');
+    reqHeader.append('Game-Name', game);
+    reqHeader.append('Game-Developer', developer);
+    reqHeader.append('Game-Publisher', publisher);
+    reqHeader.append('Game-ReleaseDate', releaseDate);
+    reqHeader.append('Game-Platforms', platforms);
+    reqHeader.append('Game-Poster', posterURL);
+    reqHeader.append('Game-PosterID', posterID);
+
+    reqHeader.append('Review-Stars', stars);
+    reqHeader.append('Review-Content', review);
+    let initObject = {
+        method: 'POST', headers: reqHeader,
+    };
+    
+    fetch('/addReview', initObject)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            console.table({"Name":game,"Release Date":releaseDate,"Platforms":platforms,"Developer":developer,"Publisher":publisher,"Star Rating":stars,"Review":review,"Poster URL":posterURL})
+
+        })
+        .catch(function (err) {
+            console.log("Something went wrong!", err);
+        });
+
 }
