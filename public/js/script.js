@@ -145,6 +145,19 @@ function getLogo(platformList)
             platformVar = "Nintendo Switch";
             break;
         
+        case "Super Nintendo Entertainment System":
+            platformVar = "SNES";
+            break;
+        
+        case "Nintendo 64DD":
+        case "Nintendo 64":
+            platformVar="N64";
+            break;
+        
+        case "Nintendo 3DS":
+            platformVar="3DS"
+            break;
+        
         // Everything unaccounted for
         default:
             platformVar = "404";
