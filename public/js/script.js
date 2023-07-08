@@ -157,6 +157,9 @@ function getLogo(platformList)
         case "Nintendo 3DS":
             platformVar="3DS"
             break;
+        case "Nintendo GameCube":
+            platformVar="Gamecube";
+            break;
         
         // Everything unaccounted for
         default:
