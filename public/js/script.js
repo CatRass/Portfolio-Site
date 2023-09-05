@@ -13,7 +13,7 @@ function addToDB(){
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            console.log("Request Success");
         })
         .catch(function (err) {
             console.log("Something went wrong!", err);
